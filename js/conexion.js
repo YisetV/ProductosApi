@@ -1,3 +1,6 @@
-function Conexion(){
-    document.getElementById("root").innerHTML="Conexion"
-}
+// objeto compartido global
+const AppData = {
+  favoritos: [],
+  ultimaBusqueda: "",
+  pagina: 1
+};

@@ -1,29 +1,69 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rick and Morty</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#20232a">
+<!-- Favicon -->
+<link rel="icon" type="image/png" href="r.png">
+
+<!-- PWA Manifest -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#20232a">
+
 </head>
 <body>
-    <nav>
-        <button onclick="Home()">Home</button>
-        <button onclick="Detalle()">Detalle</button>
-        <button onclick="Informativa()">Informativa</button>
-        <button onclick="Original()">Original</button>
-        <button onclick="Favoritos()">Favoritos</button>
 
-    </nav>
-    <div id="root">
-        <!-- aqui se agrega lo que hagamos en js -->
-    </div>
-
-    <script src="/js/conexion.js"></script>
-    <script src="/js/detalle.js"></script>
-    <script src="/js/favoritos.js"></script>
-    <script src="/js/home.js"></script>
-    <script src="/js/informativa.js"></script>
-    <script src="/js/original.js"></script>
+  <nav>
+      <button onclick="Home()">Home</button>
+      <button onclick="pedirDetalle()">Detalle</button>
+      <button onclick="Informativa()">Informativa</button>
+      <button onclick="Original()">Original</button>
+      <button onclick="Favoritos()">Favoritos</button>
+  </nav>
   
+  <div id="root"></div>
+
+  <script>
+  async function Detalle(id) {
+    const res = await fetch(`https://rickandmortyapi.com/api/character/${id}`);
+    const data = await res.json();
+
+    const detalle = `
+      <section class="c-detalle">
+          <img src="${data.image}" alt="${data.name}" height="200" width="auto">
+          <p><strong>Nombre:</strong> ${data.name}</p>
+          <p><strong>ID:</strong> ${data.id}</p>
+          <p><strong>Status:</strong> ${data.status}</p>
+          <p><strong>Especie:</strong> ${data.species}</p>
+          <p><strong>Género:</strong> ${data.gender}</p>
+          <p><strong>Origen:</strong> ${data.origin.name}</p>
+          <p><strong>Ubicación:</strong> ${data.location.name}</p>
+      </section>
+    `;
+
+    document.getElementById("root").innerHTML = detalle;
+  }
+
+  function pedirDetalle() {
+    const id = prompt("Escribe el ID del personaje:");
+    if (id) {
+      Detalle(id);
+    }
+  }
+  </script>
+  <script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/Rick_and_Morty/sw.js")
+      .then((reg) => console.log("✅ Service Worker registrado:", reg))
+      .catch((err) => console.error("❌ Error al registrar SW:", err));
+  });
+}
+</script>
 
 </body>
 </html>
