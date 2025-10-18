@@ -1,20 +1,23 @@
-async function Detalle(id) {
-  const res = await fetch(`https://api.escuelajs.co/api/v1/products{id}`);
-  const data = await res.json();
+async function Detalle(idFilm) {
+  try {
+    const res = await fetch(https://api.escuelajs.co/api/v1/products/${idproducts});
+    const data = await res.json();
+    const film = data.result.properties;
 
-  const detalle = `
-    <section class="c-detalle">
-        <img src="${data.image}" alt="${data.name}" height="200" width="auto">
-        <p><strong>Nombre:</strong> ${data.name}</p>
-        <p><strong>ID:</strong> ${data.id}</p>
-        <p><strong>Status:</strong> ${data.status}</p>
-        <p><strong>Especie:</strong> ${data.species}</p>
-        <p><strong>Género:</strong> ${data.gender}</p>
-        <p><strong>Origen:</strong> ${data.origin.name}</p>
-        <p><strong>Ubicación:</strong> ${data.location.name}</p>
-        <button onclick="Home()">⬅️ Volver</button>
-    </section>
-  `;
-
-  document.getElementById("root").innerHTML = detalle;
+    document.getElementById("root").innerHTML = `
+      <div class="film-detalle">
+        <h2>${film.title}</h2>
+        <p><strong>Episodio:</strong> ${film.episode_id}</p>
+        <p><strong>Director:</strong> ${film.director}</p>
+        <p><strong>Productor:</strong> ${film.producer}</p>
+        <p><strong>Fecha de lanzamiento:</strong> ${film.release_date}</p>
+        <p><strong>Introducción:</strong></p>
+        <p>${film.opening_crawl}</p>
+        <br>
+        <button onclick="Home()">⬅ Volver</button>
+      </div>`;
+  } catch (error) {
+    document.getElementById("root").innerHTML = <p style="color:red;">❌ Error: ${error.message}</p>;
+  }
 }
+(100)
